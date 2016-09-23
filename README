@@ -1,0 +1,39 @@
+Theresa Xu - txu8@u.rochester.edu
+
+This project required us to create a binary search tree in order to determine the location of a point. The project
+takes in a line that is inputed and creates a binary tree from that line. The next line that is inputed is also
+put into the tree, in respect to the previous line inputed. For instance, if it is less than the root, it is put
+in as a leftChild and if it is greater than it is put into the rightChild.
+
+The point class takes in 2 doubles which are the x and y coordinates of the point. The line class takes in 4 doubles
+or 2 points and creates a line from that. Because we need to return a line that separates 2 points I also added a toString
+method so that it prints out the string version of the line. The MyBinarySearchTree contains the external non-recursive
+methods such as printInOrder, exNodes, insert, lookup. The insert method takes in a line and actually inserts it into
+the tree. The printInOrder method prints out the lines in order. The lookup method takes in two points and compares
+them and determines where they are located and determines if they are in the same region or not. If not, the line that
+separates them will be printed out. The MyTreeNode class contains the recursive versions of the methods. In insertNode,
+we have three if conditions. The first is that if there is a line that is being inserted, it calls the ccw method and if
+the ccw method determines the it is less than the line that is already inserted into the tree, it creates a leftChild
+and inserts the new line as a leftChild. Another possibility is that if it is greater than, then it will become a rightChild.
+Otherwise, the two lines intersect and thus you must split them at their intersection point and insert the newly split 
+two lines into the binary search tree as two separate lines. The intersectionPt method in this class determines this
+exact point. The countExternalNodes method counts the number of external nodes within the tree and the exPathLengthCalc
+calculates the length of the path to get to external nodes. External nodes are the nodes within the tree that extend from a 
+previous node that doens't have either a left child, a right child or both. With every one that is null, there is an addition
+to the external node. For instance, if there is a leaf child there are 2 external nodes. With an increase in lines that 
+either don't have a left child or a right child, there is an increase in external nodes. The pointLocator class is the main class
+that I have that has a scanner that allows the user to input the number of lines, line coordinates, and point coordinates for 
+comparison. It creates the number of lines through the use of a for loop takes in four doubles as the x and y coordinates of 
+the line. It then calls the insert method on the lines created and puts it into the binary search tree. After that, the program takes
+in two points and calls the lookup method on the two points.  
+
+One issue that I ran into was precision and how to resolve the precision when an intersection point was calculated.
+To solve this problem, I first casted the doubles to floats in the intersectPt method to make it more precise. However even
+after doing this there was a stack overflow error where my program kept recursively calling the insert line method on the 2nd
+half of the newly split line and kept adding the same line into the binary tree. I also changed the ccw method so that it 
+was also floats instead of doubles and changed the else if statements by adding a threshold of -.00001 so that it would be 
+more precise when determining where a line belongs in the binary search tree after splitting the line into 2 separate lines. 
+This ended up working and resolve the issue with overflow since now the coordinates of the point were more precise.
+
+In my test cases file I changed the second comparison point so that the two points wouldn't be in the same region and that it would 
+return the line that separates them, which it did as expected. It returned "Line that separates: 0.0 0.12 0.23 1.0."
